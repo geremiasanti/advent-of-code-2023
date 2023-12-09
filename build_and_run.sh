@@ -6,4 +6,8 @@
 #                    v      v
 #                 folder  input
 
-gcc -o ${1}/build/main ${1}/src/main.c && ${1}/build/main ${1}/input/${2}.txt
+# create build dir if not exists
+mkdir ./${1}/build
+
+# compile and run
+gcc -o ./${1}/build/main ./${1}/src/main.c && ./${1}/build/main ./${1}/input/${2}.txt
