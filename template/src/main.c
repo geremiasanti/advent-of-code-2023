@@ -26,6 +26,7 @@ int main(int argc, char* argv [])
     }
 
     printf("reading file %s\n", argv[1]);
+    print_separators(2);
     while ((len = getline(&line, &allocated_size, fp)) != -1) {
         printf("Retrieved line of length %zu :\n", len);
         printf("%s", line);
