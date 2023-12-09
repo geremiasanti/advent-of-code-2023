@@ -21,7 +21,7 @@ int main(int argc, char* argv [])
 
     fp = fopen(argv[1], "r");
     if (fp == NULL) {
-        printf("Can't read input file\n");
+        printf("Can't read input file (%s)\n", argv[1]);
         exit(EXIT_FAILURE);
     }
 
