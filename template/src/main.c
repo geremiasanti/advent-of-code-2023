@@ -7,8 +7,7 @@ void print_separators(int rows) {
     }
 }
 
-int main(int argc, char* argv [])
-{
+int main(int argc, char* argv []) {
     FILE *fp;
     char *line = NULL;
     size_t allocated_size = 0;
