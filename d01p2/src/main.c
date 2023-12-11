@@ -5,9 +5,8 @@
 
 const char* DEFAULT_BUFFER_VALUE = "--";
 
-const int DIGITS_IN_LETTERS_SIZE = 10;
+const int DIGITS_IN_LETTERS_SIZE = 9;
 const char* DIGITS_IN_LETTERS[] = { 
-    "zero", 
     "one", 
     "two",
     "three",
@@ -19,18 +18,25 @@ const char* DIGITS_IN_LETTERS[] = {
     "nine",
 };
 
-void print_separators(int rows) {
+void print_separators(size_t rows) {
     for(int i = 0; i < rows; i++) {
         printf("----------------------------------------------------------\n");
     }
 }
 
 void replace_digits(char *str) {
-    char *found_digit_in_letters = NULL;
-    for(int i = 0; i < DIGITS_IN_LETTERS_SIZE; i++) {
-        while((found_digit_in_letters = strstr(str, DIGITS_IN_LETTERS[i])) != NULL) {
-            // convert i to corresponding char
-            found_digit_in_letters[0] = i + '0';
+    int digits_i;
+    const char *digit_char;
+    for(char *str_char = str; *str_char != '\0'; str_char++) {
+        if(!isalpha(*str_char)) 
+            continue;
+
+        printf("str_char: %c\n", *str_char);
+
+        for(digits_i = 0; digits_i < DIGITS_IN_LETTERS_SIZE; digits_i++) {
+            for(digit_char = DIGITS_IN_LETTERS[digits_i]; *digit_char != '\0'; digit_char++) {
+                printf("digit_char: %c\n", *digit_char); 
+            }
         }
     }
 }
@@ -72,7 +78,8 @@ int main(int argc, char *argv[]) {
         print_separators(1);
 
         replace_digits(line);
-        printf("translated: %s", line);
+        print_separators(1);
+        printf("replaced: %s", line);
         print_separators(1);
 
         strcpy(buffer, DEFAULT_BUFFER_VALUE);
@@ -92,6 +99,8 @@ int main(int argc, char *argv[]) {
                output);
 
         print_separators(2);
+
+        break;
     }
 
     printf("output: %d\n", output);
