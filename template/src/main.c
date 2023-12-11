@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void print_separators(int rows) {
+void print_separators(size_t rows) {
     for(int i = 0; i < rows; i++) {
         printf("----------------------------------------------------------\n");
     }
