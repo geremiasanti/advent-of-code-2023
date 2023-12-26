@@ -1,11 +1,13 @@
 #include <ctype.h> 
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+
 const char* DEFAULT_BUFFER_VALUE = "--";
 
-const int DIGITS_IN_LETTERS_SIZE = 9;
+#define DIGITS_IN_LETTERS_SIZE 9
 const char* DIGITS_IN_LETTERS[] = { 
     "one", 
     "two",
@@ -24,21 +26,47 @@ void print_separators(size_t rows) {
     }
 }
 
-void replace_digits(char *str) {
-    int digits_i;
-    const char *digit_char;
-    for(char *str_char = str; *str_char != '\0'; str_char++) {
-        if(!isalpha(*str_char)) 
-            continue;
-
-        printf("str_char: %c\n", *str_char);
-
-        for(digits_i = 0; digits_i < DIGITS_IN_LETTERS_SIZE; digits_i++) {
-            for(digit_char = DIGITS_IN_LETTERS[digits_i]; *digit_char != '\0'; digit_char++) {
-                printf("digit_char: %c\n", *digit_char); 
-            }
+int get_lower_positive_element_i(int *arr, int len) {
+    int min = INT_MAX;
+    int out = -1;
+    for(int i = 0; i < len; i++) {
+        if(arr[i] >= 0 && arr[i] < min) {
+            min = arr[i];
+            out = i;
         }
     }
+   
+    return out;
+}
+
+void replace_digits(char *str) {
+    char *digit_pointers[DIGITS_IN_LETTERS_SIZE];
+    memset(digit_pointers, NULL, sizeof(digit_pointers));
+    int digit_positions[DIGITS_IN_LETTERS_SIZE];
+    memset(digit_positions, -1, sizeof(digit_positions));
+    for(int i = 0; i < DIGITS_IN_LETTERS_SIZE; i++) {
+        char *digit_in_str = strstr(str, DIGITS_IN_LETTERS[i]);
+        if(digit_in_str != NULL) {
+            digit_pointers[i] = digit_in_str; 
+            digit_positions[i] = digit_in_str - str; 
+        }
+    }
+
+    for(int i = 0; i < DIGITS_IN_LETTERS_SIZE; i++) {
+        printf("%d; %s\n", digit_positions[i], digit_pointers[i]);
+    }
+
+    print_separators(1);
+    int first_digit_i = get_lower_positive_element_i(digit_positions, DIGITS_IN_LETTERS_SIZE);
+    printf("first digit i: %d\n", first_digit_i);
+
+    if(first_digit_i == -1) {
+        return;
+    }
+
+    // TODO replace all chars of digits in letter with corresponding digit
+    *digit_pointers[first_digit_i] = (first_digit_i + 1) + '0';
+    replace_digits(str);
 }
 
 int main(int argc, char *argv[]) {
@@ -99,8 +127,6 @@ int main(int argc, char *argv[]) {
                output);
 
         print_separators(2);
-
-        break;
     }
 
     printf("output: %d\n", output);
